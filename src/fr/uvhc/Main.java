@@ -44,5 +44,7 @@ public class Main {
         automate.add(new Etat(true, false, 0));
         automate.add(new Etat(1));
         automate.add(new Etat(false, true, 2));
+
+        System.out.println(automate);
     }
 }

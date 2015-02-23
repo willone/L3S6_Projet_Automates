@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Created by Florian on 14/02/2015.
+ * Créé par Florian le 14/02/2015.
  */
 public class Automate extends EnsEtats {
 
@@ -12,17 +12,28 @@ public class Automate extends EnsEtats {
     private HashSet<Character> alphabet;
     // les transitions sont disponibles via grâce à la classe mère
 
+    /**
+     * Constructeur vide
+     */
     Automate() {
         super();
         initiaux = new EnsEtats();
     }
 
+    /**
+     * Constructeur à 1 paramètre
+     * @param nbEtats Nombre d'états de l'automate
+     */
     Automate(int nbEtats){
         for (int i = 0; i < nbEtats; i++) {
             add(new Etat(i));
         }
     }
 
+    /**
+     * Récupère l'alphabet associé à l'automate
+     * @return L'alphabet lié à l'automate
+     */
     public Set<Character> alphabet() {
         Set<Character> al = new HashSet<Character>();
         for(Etat e : this){
@@ -31,5 +42,39 @@ public class Automate extends EnsEtats {
             al.addAll(tmp);
         }
         return al;
+    }
+
+    /**
+     * Ajoute une transition de e1 vers e2 d'étiquette c
+     * @param e1 Etat de départ
+     * @param c Etiquette de la transition
+     * @param e2 Etat d'arrivée
+     */
+    public void ajouterTransition(Etat e1, char c, Etat e2) {
+        for(Etat e : this)
+        {
+            if (e.equals(e1))
+                e.ajouterTransition(c, e2);
+        }
+    }
+
+    /**
+     * Ajoute une epsilon-transition entre e1 et e2
+     * @param e1 Etat de départ
+     * @param e2 Etat d'arrivée
+     */
+    public void ajouterTransition(Etat e1, Etat e2) {
+        ajouterTransition(e1, ' ', e2);
+    }
+
+    @Override
+    public String toString() {
+        String res = "";
+
+        for(Etat e : this){
+            res += e + " ";
+        }
+
+        return res;
     }
 }

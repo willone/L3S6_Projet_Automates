@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * Created by Florian on 14/02/2015.
+ * Créé par Florian le 14/02/2015.
  */
 public class Etat {
 
@@ -21,7 +21,7 @@ public class Etat {
     /**
      * Constructeur à 1 paramètre
      * Cas d'un état quelconque (ni initial, ni terminal)
-     * @param nId
+     * @param nId Numéro de l'état à créer
      */
     Etat(int nId) {
         nbEtats++;
@@ -38,7 +38,7 @@ public class Etat {
      * @param term Booléen indiquant si l'état est terminal
      * @param nId Identifiant de l'état
      */
-    public Etat(boolean init, boolean term, int nId) {
+    Etat(boolean init, boolean term, int nId) {
         nbEtats++;
         transitions = new HashMap<Character, EnsEtats>();
         initial = init;
@@ -130,6 +130,15 @@ public class Etat {
     }
 
     /**
+     * Ajouter une epsilon-transition vers e
+     * @param e Etat d'arrivée de la transition
+     */
+    public void ajouterTransition(Etat e) {
+        char epsilon = ' ';
+        ajouterTransition(epsilon, e);
+    }
+
+    /**
      * Retourne l'ensemble des lettres associées aux transitions, sans doublon (grâce à l'utilisation d'un Set)
      * @return Ensemble de lettres
      */
@@ -150,10 +159,8 @@ public class Etat {
     // Surcharges
 
     @Override
-    public boolean equals(Object o){
-        if(!(o instanceof Etat))
-            return false;
-        return this.equals((Etat) o);
+    public boolean equals(Object o) {
+        return o instanceof Etat && this.equals((Etat) o);
     }
 
     @Override
