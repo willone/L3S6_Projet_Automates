@@ -50,7 +50,7 @@ public class Automate extends EnsEtats {
      * @param c Etiquette de la transition
      * @param e2 Etat d'arrivée
      */
-    public void ajouterTransition(Etat e1, char c, Etat e2) {
+    public void ajouterTransition(Etat e1, Character c, Etat e2) {
         for(Etat e : this)
         {
             if (e.equals(e1))
@@ -76,5 +76,17 @@ public class Automate extends EnsEtats {
         }
 
         return res;
+    }
+
+    /**
+     * Vérifie si un automate est déterministe
+     * @return Un booléen
+     */
+    public boolean estDeterministe() {
+        for ( Etat e : this) {
+            if (!e.estDeterminisant())
+                return false;
+        }
+        return true;
     }
 }
