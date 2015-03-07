@@ -40,11 +40,26 @@ public class Main {
             System.out.println(e.afficherTout());
         }
         */
+
+        /* Jeu de tests 2 à supprimer
         Automate automate = new Automate();
         automate.add(new Etat(true, false, 0));
         automate.add(new Etat(1));
         automate.add(new Etat(false, true, 2));
 
         System.out.println(automate);
+        */
+
+        /* Jeu de tests 3 */
+        Automate a = new Automate();
+
+        a.creer();
+        System.out.println(a);
+
+        if (a.estDeterministe()) {
+            System.out.println("Automate déterministe");
+        } else {
+            System.out.println("Automate non-déterministe");
+        }
     }
 }
