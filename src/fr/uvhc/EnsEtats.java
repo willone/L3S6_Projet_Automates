@@ -17,7 +17,17 @@ public class EnsEtats extends HashSet<Etat> {
         this.add(e);
     }
 
-    public void ajouterTransition(Etat e1, Character c, Etat e2) {;
+    /**
+     * Retourne l'état correspondant à un id donné
+     * @param id id dont on cherche à récupérer l'état
+     * @return Un Etat
+     */
+    protected Etat recupererEtat(int id) {
+        for(Etat e : this) {
+            if (e.getId() == id)
+                return e;
+        }
+        return null;
     }
 
     /**
