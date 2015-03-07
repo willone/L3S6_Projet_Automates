@@ -56,13 +56,16 @@ public class Automate extends EnsEtats {
 
         // Ajout des états finaux
         creerEtatsTerminaux(sc);
+
+        // Ajout des transitions
+        creerTransitions(sc);
     }
 
     /**
      * Permet de créer des états initiaux [forcément dépendant de creer()]
      * @param sc Un Scanner récupéré à partir de la fonction creer()
      */
-    public void creerEtatsInitiaux(Scanner sc) {
+    private void creerEtatsInitiaux(Scanner sc) {
         int nbEtatsInitiaux = 0;
         int etatInitial = 0;
 
@@ -85,7 +88,7 @@ public class Automate extends EnsEtats {
      * Permet de créer des états terminaux [forcément dépendant de creer()]
      * @param sc Un Scanner récupéré à partir de la fonction creer()
      */
-    public void creerEtatsTerminaux(Scanner sc) {
+    private void creerEtatsTerminaux(Scanner sc) {
         int etatTerminal = 0;
         int nbEtatsTerminaux = 0;
 
@@ -101,6 +104,37 @@ public class Automate extends EnsEtats {
                 }
             }
             nbEtatsTerminaux--;
+        }
+    }
+
+    /**
+     * Permet de créer les transitions dans la méthode creer()
+     * @param sc Un scanner récupéré via creer()
+     */
+    private void creerTransitions(Scanner sc) {
+        int nbTransitions = 0;
+        int etatDepart = -1;
+        int etatArrivee = -1;
+        Character c = null;
+        String transition;
+
+        System.out.println("Nombre de transitions :");
+        nbTransitions = sc.nextInt();
+        sc.nextLine(); // purge le scanner (récupère le retour à la ligne)
+
+        while(nbTransitions != 0) {
+            System.out.println("Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 0 a 1 ou 0 1 si epsilon-transition)");
+            transition = sc.nextLine();
+            etatDepart = Character.getNumericValue(transition.charAt(0));
+            if (transition.length() == 3) {
+                etatArrivee = Character.getNumericValue(transition.charAt(2));
+                ajouterTransition(recupererEtat(etatDepart), recupererEtat(etatArrivee));
+            } else {
+                etatArrivee = Character.getNumericValue(transition.charAt(4));
+                c = new Character(transition.charAt(2));
+                ajouterTransition(recupererEtat(etatDepart), c, recupererEtat(etatArrivee));
+            }
+            nbTransitions--;
         }
     }
 
