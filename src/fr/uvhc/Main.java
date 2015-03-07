@@ -6,7 +6,7 @@ public class Main {
 
         System.out.println("[TESTS]\n");
 
-        /*
+        /* Jeu de tests à supprimer
         EnsEtats ens = new EnsEtats();
 
         Etat e0 = new Etat(true, false, 0);
