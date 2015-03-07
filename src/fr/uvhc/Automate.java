@@ -1,6 +1,7 @@
 package fr.uvhc;
 
 import java.util.HashSet;
+import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -22,21 +23,103 @@ public class Automate extends EnsEtats {
 
     /**
      * Constructeur à 1 paramètre
+     *
      * @param nbEtats Nombre d'états de l'automate
      */
-    Automate(int nbEtats){
+    Automate(int nbEtats) {
         for (int i = 0; i < nbEtats; i++) {
             add(new Etat(i));
         }
     }
 
+    public int nbEtatsInitiaux() {
+        return initiaux.size();
+    }
+
+    /**
+     * Permet de créer un automate
+     */
+    public void creer() {
+        Scanner sc = new Scanner(System.in);
+        int nbEtats = 0;
+
+        System.out.println("Nombre d'états de l'automate");
+        nbEtats = sc.nextInt();
+
+        // Ajout des nbEtats
+        for (int i = 0; i < nbEtats; i++) {
+            ajouterEtat(new Etat(i));
+        }
+
+        // Ajout des états initiaux
+        creerEtatsInitiaux(sc);
+
+        // Ajout des états finaux
+        creerEtatsTerminaux(sc);
+    }
+
+    /**
+     * Permet de créer des états initiaux [forcément dépendant de creer()]
+     * @param sc Un Scanner récupéré à partir de la fonction creer()
+     */
+    public void creerEtatsInitiaux(Scanner sc) {
+        int nbEtatsInitiaux = 0;
+        int etatInitial = 0;
+
+        System.out.println("Nombre d'états initiaux :");
+        nbEtatsInitiaux = sc.nextInt();
+        System.out.println("Indiquer le numéro des états initiaux :");
+        while (nbEtatsInitiaux != 0) {
+            etatInitial = sc.nextInt();
+            for (Etat e : this) {
+                if (e.getId() == etatInitial) {
+                    e.setInitial();
+                    ajouterEtatInitial(e);
+                }
+            }
+            nbEtatsInitiaux--;
+        }
+    }
+
+    /**
+     * Permet de créer des états terminaux [forcément dépendant de creer()]
+     * @param sc Un Scanner récupéré à partir de la fonction creer()
+     */
+    public void creerEtatsTerminaux(Scanner sc) {
+        int etatTerminal = 0;
+        int nbEtatsTerminaux = 0;
+
+        System.out.println("Nombre d'états terminaux :");
+        nbEtatsTerminaux = sc.nextInt();
+        System.out.println("Indiquer le numéro des états terminaux :");
+        while (nbEtatsTerminaux != 0) {
+            etatTerminal = sc.nextInt();
+            for (Etat e : this) {
+                if (e.getId() == etatTerminal) {
+                    e.setTerminal();
+                    ajouterEtatInitial(e);
+                }
+            }
+            nbEtatsTerminaux--;
+        }
+    }
+
+    /**
+     * Ajoute un état initial à l'ensemble initiaux de l'automate
+     * @param e Etat initial à ajouter
+     */
+    public void ajouterEtatInitial(Etat e) {
+        initiaux.ajouterEtat(e);
+    }
+
     /**
      * Récupère l'alphabet associé à l'automate
+     *
      * @return L'alphabet lié à l'automate
      */
     public Set<Character> alphabet() {
         Set<Character> al = new HashSet<Character>();
-        for(Etat e : this){
+        for (Etat e : this) {
             Set<Character> tmp = new HashSet<Character>();
             tmp.addAll(e.alphabet());
             al.addAll(tmp);
@@ -46,13 +129,13 @@ public class Automate extends EnsEtats {
 
     /**
      * Ajoute une transition de e1 vers e2 d'étiquette c
+     *
      * @param e1 Etat de départ
-     * @param c Etiquette de la transition
+     * @param c  Etiquette de la transition
      * @param e2 Etat d'arrivée
      */
     public void ajouterTransition(Etat e1, Character c, Etat e2) {
-        for(Etat e : this)
-        {
+        for (Etat e : this) {
             if (e.equals(e1))
                 e.ajouterTransition(c, e2);
         }
@@ -60,6 +143,7 @@ public class Automate extends EnsEtats {
 
     /**
      * Ajoute une epsilon-transition entre e1 et e2
+     *
      * @param e1 Etat de départ
      * @param e2 Etat d'arrivée
      */
@@ -67,26 +151,31 @@ public class Automate extends EnsEtats {
         ajouterTransition(e1, ' ', e2);
     }
 
+    /**
+     * Vérifie si un automate est déterministe
+     *
+     * @return Un booléen
+     */
+    public boolean estDeterministe() {
+        if(nbEtatsInitiaux() != 1) {
+            return false;
+        } else {
+            for (Etat e : this) {
+                if (!e.estDeterminisant())
+                    return false;
+            }
+            return true;
+        }
+    }
+
     @Override
     public String toString() {
-        String res = "";
+        String res = "Etats : " + size()+"\n";
 
-        for(Etat e : this){
+        for (Etat e : this) {
             res += e + " ";
         }
 
         return res;
-    }
-
-    /**
-     * Vérifie si un automate est déterministe
-     * @return Un booléen
-     */
-    public boolean estDeterministe() {
-        for ( Etat e : this) {
-            if (!e.estDeterminisant())
-                return false;
-        }
-        return true;
     }
 }
