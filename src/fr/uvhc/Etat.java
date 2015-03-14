@@ -1,14 +1,12 @@
 package fr.uvhc;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Créé par Florian le 14/02/2015.
  */
 public class Etat {
-
     private static int nbEtats = 0;
     private int id;
     private boolean initial;
@@ -81,8 +79,6 @@ public class Etat {
     public HashMap<Character, EnsEtats> getTransitions() {
         return transitions;
     }
-
-
     // Autres méthodes
 
     /**
@@ -156,13 +152,15 @@ public class Etat {
 
     /**
      * Vérifie si les transitions partant de cet état ne partagent pas deux fois la même étiquette
+     *
      * @return Un booléen
      */
     public boolean estDeterminisant() {
-        for ( Character c : alphabet() ) {
+        for (Character c : alphabet()) {
             EnsEtats ens = transitions.get(c);
-            if ( ens.size() >= 2 )
+            if (ens.size() > 2) {
                 return false;
+            }
         }
         return true;
     }
@@ -177,9 +175,7 @@ public class Etat {
         return ((id == e.getId()) || (hashCode() == e.hashCode()));
     }
 
-
     // Surcharges
-
     @Override
     public boolean equals(Object o) {
         return o instanceof Etat && this.equals((Etat) o);
@@ -193,29 +189,30 @@ public class Etat {
     @Override
     public String toString() {
         String res = "" + id;
-
-        if (isInitial() && !isTerminal())
+        if (isInitial() && !isTerminal()) {
             res = "=>" + res;
-        if (!isInitial() && isTerminal())
-            res += "=>";
-        if (isInitial() && isTerminal())
-            res = "=>" + res + "=>";
-
+            if (!isInitial() && isTerminal()) {
+                res += "=>";
+            }
+            if (isInitial() && isTerminal()) {
+                res = "=>" + res + "=>";
+            }
+        }
         return res;
     }
 
     /**
      * Une façon d'afficher l'état
+     *
      * @return Une chaîne de caractères
      */
     public String afficherTout() {
-        String res = "+Etat " + id + "\n";
-
+        String res = "\nEtat " + id + "\n";
         res += "Initial : " + ((isInitial()) ? "Oui" : "Non") + "\n";
         res += "Terminal : " + ((isTerminal()) ? "Oui" : "Non") + "\n";
+        res += "Transition : " + transitions + "\n";
         res += "Alphabet associé : " + alphabet() + "\n";
         res += "Successeurs : " + successeurs() + "\n";
-
         return res;
     }
 }
