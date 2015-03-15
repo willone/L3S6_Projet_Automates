@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
         /* Jeu de tests à supprimer
-		EnsEtats ens = new EnsEtats();
+        EnsEtats ens = new EnsEtats();
 		Etat e0 = new Etat(true, false, 0);
 		Etat e1 = new Etat(false, false, 1);
 		Etat e2 = new Etat(false, true, 2);
@@ -43,35 +43,36 @@ public class Main {
 		System.out.println(automate);
 		*/
 
-		/* Jeu de tests 3
-		System.out.println("[MENU AUTOMATE]\n");
+		/* Jeu de tests 3*/
+        System.out.println("[MENU AUTOMATE]\n");
         System.out.println("1°) expression vers automate");
         System.out.println("2°) automate");
         Scanner sc1 = new Scanner(System.in);
         int choix;
+
         do {
             System.out.println("### Faites votre choix ? (1 ou 2). ###");
             choix = sc1.nextInt();
         } while ((choix < 1) || (choix > 2));
 
-
-        if (choix == 1) {
-            Exptoaut exp = new Exptoaut();
-            exp.creer();
-        } else {
-            Automate a = new Automate();
-            a.creer();
-            System.out.println(a);
-            if (a.estDeterministe()) {
-                System.out.println("Automate déterministe");
-            } else {
-                System.out.println("Automate non-déterministe");
-            }
+        switch (choix) {
+            case 1:
+                Exptoaut exp = new Exptoaut();
+                exp.creer();
+                break;
+            case 2:
+                Automate a = new Automate();
+                a.creer();
+                System.out.println(a);
+                break;
+            default:
+                System.out.println("Choix hors-limites");
+                break;
         }
-        sc1.close();
-        */
 
-        /* Jeu de tests affichage états */
+        sc1.close();
+
+        /* Jeu de tests affichage états
         System.out.println("[AFFICHAGE AUTOMATE (TRANSITIONS EN LIGNE)");
         Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(false, false, 1);
@@ -87,7 +88,7 @@ public class Main {
         a.ajouterEtat(e1);
         a.ajouterEtat(e2);
 
-        System.out.println(a);
+        System.out.println(a);*/
     }
 
 }

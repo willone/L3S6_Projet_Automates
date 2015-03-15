@@ -140,7 +140,7 @@ public class Exptoaut extends Automate {
         System.out.println(b);
     }
 
-
+    @Override
     public void creer() {
         Scanner tc = new Scanner(System.in);
         String expre;

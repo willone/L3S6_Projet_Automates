@@ -51,16 +51,22 @@ public class Automate extends EnsEtats {
     public void creer() {
         Scanner sc = new Scanner(System.in);
         int nbEtats = 0;
-        System.out.println("\n### Nombre d'états de l'automate ###");
+
+        System.out.println("### Création de l'automate : les états seront numérotés de 1 à X où X est le nombre d'états ###");
+        System.out.println("### Nombre d'états de l'automate ###");
         nbEtats = sc.nextInt();
+
         // Ajout des nbEtats
         for (int i = 1; i <= nbEtats; i++) {
             ajouterEtat(new Etat(i));
         }
+
         // Ajout des états initiaux
         creerEtatsInitiaux(sc);
+
         // Ajout des états finaux
         creerEtatsTerminaux(sc);
+
         // Ajout des transitions
         creerTransitions(sc);
     }
@@ -125,7 +131,7 @@ public class Automate extends EnsEtats {
         System.out.println("### Nombre de transitions : ###");
         nbTransitions = sc.nextInt();
         sc.nextLine(); // purge le scanner (récupère le retour à la ligne)
-        System.out.println("### Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 0 a 1 ou 0 1 si epsilon-transition) ###");
+        System.out.println("### Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 0 a 1 ou 0 § 1 si epsilon-transition) ###");
         while (nbTransitions > 0) {
             transition = sc.nextLine();
             etatDepart = Character.getNumericValue(transition.charAt(0));
@@ -229,7 +235,8 @@ public class Automate extends EnsEtats {
 
     @Override
     public String toString() {
-        String res = "> Nombre d'etats : " + size() + "\n";
+        String res = "> Etats : " + size() + "\n";
+        res += "> Déterministe : " + (estDeterministe() ? "Oui\n" : "Non\n");
         res += "> Alphabet : " + alphabet() + "\n";
         res += "> Transitions : \n";
         for (Etat e : this) {

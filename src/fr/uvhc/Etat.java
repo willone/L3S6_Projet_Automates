@@ -230,8 +230,12 @@ public class Etat {
 
         for (HashMap.Entry<Character, EnsEtats> entree : transitions.entrySet()) {
             Iterator it = entree.getValue().iterator(); // permet de supprimer les crocher inhérents à l'affichage d'un HashSet (ie. EnsEtats pour entree.getValue());
-            Etat suiv = (Etat)it.next();
-            res += "(" + this.preciserEtat() + ")-" + entree.getKey() + "->" + "(" + suiv.preciserEtat() + ")\n";
+
+            if (it.hasNext())
+            {
+                Etat suiv = (Etat)it.next();
+                res += "(" + this.preciserEtat() + ")-" + entree.getKey() + "->" + "(" + suiv.preciserEtat() + ")\n";
+            }
         }
 
         return res;
