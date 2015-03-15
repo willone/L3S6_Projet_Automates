@@ -72,7 +72,7 @@ public class Main {
         */
 
         /* Jeu de tests affichage états */
-        System.out.println("[AFFICHAGE EN LIGNE DES TRANSITIONS PAR ETAT]");
+        System.out.println("[AFFICHAGE AUTOMATE (TRANSITIONS EN LIGNE)");
         Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(false, false, 1);
         Etat e2 = new Etat(false, true, 2);
@@ -81,9 +81,13 @@ public class Main {
         e1.ajouterTransition('a', e2);
         e1.ajouterTransition('b', e0);
         e2.ajouterTransition('a', e0);
-        System.out.println(e0);
-        System.out.println(e1);
-        System.out.println(e2);
+
+        Automate a = new Automate();
+        a.ajouterEtat(e0);
+        a.ajouterEtat(e1);
+        a.ajouterEtat(e2);
+
+        System.out.println(a);
     }
 
 }

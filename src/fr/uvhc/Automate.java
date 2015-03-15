@@ -229,10 +229,12 @@ public class Automate extends EnsEtats {
 
     @Override
     public String toString() {
-        String res = "\nNombre d'etats : " + size() + "\n";
+        String res = "> Nombre d'etats : " + size() + "\n";
+        res += "> Alphabet : " + alphabet() + "\n";
+        res += "> Transitions : \n";
         for (Etat e : this) {
 			/*modification apportée*/
-            res += e.afficherTout() + " ";
+            res += e;
         }
         return res;
     }
