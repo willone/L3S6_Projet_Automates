@@ -12,6 +12,9 @@ public class Automate extends EnsEtats {
     /*modification apportée*/
     private EnsEtats finaux;
     private HashSet<Character> alphabet;
+
+    private boolean autSynchrone;
+    private boolean autDeterministe;
     // les transitions sont disponibles via grâce à la classe mère
 
     /**
@@ -24,19 +27,41 @@ public class Automate extends EnsEtats {
         finaux = new EnsEtats();
     }
 
+
     /**
      * Constructeur à 1 paramètre
      *
      * @param nbEtats Nombre d'états de l'automate
      */
-    public void Automate(int nbEtats) {
+    Automate(int nbEtats) {
         for (int i = 1; i <= nbEtats; i++) {
             add(new Etat(i));
         }
     }
 
     /**
+     * Fonction de génération d'un automate -- utile pour Exptoaut.java
+     *
+     * @param nbEtats
+     */
+    public void genererAutomate(int nbEtats) {
+        for (int i = 1; i <= nbEtats; i++) {
+            add(new Etat(i));
+        }
+    }
+
+    /**
+     * Retourne le nombre d'états de l'automate
+     *
+     * @return Un entier
+     */
+    public int nbEtats() {
+        return this.size();
+    }
+
+    /**
      * Retourne le nombre d'états initiaux de l'automate
+     *
      * @return Un entier
      */
     public int nbEtatsInitiaux() {
@@ -45,6 +70,7 @@ public class Automate extends EnsEtats {
 
     /**
      * Retourne le nombre d'états finaux de l'automate
+     *
      * @return
      */
     public int nbEtatsFinaux() {
@@ -75,6 +101,10 @@ public class Automate extends EnsEtats {
 
         // Ajout des transitions
         creerTransitions(sc);
+
+        // Màj des booléens autSynchrone et autDeterministe
+        autSynchrone = estSynchrone();
+        autDeterministe = estDeterministe();
     }
 
     /**
@@ -134,10 +164,10 @@ public class Automate extends EnsEtats {
         int etatArrivee = 0;
         Character c = null;
         String transition;
-        System.out.println("### Nombre de transitions : ###");
+        System.out.println("### Nombre de transitions ###");
         nbTransitions = sc.nextInt();
         sc.nextLine(); // purge le scanner (récupère le retour à la ligne)
-        System.out.println("### Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 0 a 1 ou 0 § 1 si epsilon-transition) ###");
+        System.out.println("### Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 1 a 2 ou 1 § 2 si epsilon-transition) ###");
         while (nbTransitions > 0) {
             transition = sc.nextLine();
             etatDepart = Character.getNumericValue(transition.charAt(0));
@@ -221,6 +251,23 @@ public class Automate extends EnsEtats {
     }
 
     /**
+     * Supprime une transition de l'automate
+     *
+     * @param e1 Etat de départ
+     * @param c  Etiquette
+     * @param e2 Etat d'arrivée
+     * @return Un booléen : vrai si la suppression a eu lieu, faux sinon
+     */
+    public boolean supprimerTransition(Etat e1, char c, Etat e2) {
+        for (Etat e : this) {
+            if (e.equals(e1)) {
+                return e.supprimerTransition(c, e2);
+            }
+        }
+        return false;
+    }
+
+    /**
      * Vérifie si un automate est déterministe
      *
      * @return Un booléen
@@ -241,10 +288,11 @@ public class Automate extends EnsEtats {
 
     /**
      * Vérifie si un automate est synchrone
+     *
      * @return Un booléen
      */
     public boolean estSynchrone() {
-        for (Etat e : this){
+        for (Etat e : this) {
             if (e.getTransitions().containsKey('§')) {
                 return false;
             }
@@ -260,7 +308,7 @@ public class Automate extends EnsEtats {
         res += "> Alphabet : " + alphabet() + "\n";
         res += "> Transitions : \n";
         for (Etat e : this) {
-			/*modification apportée*/
+            /*modification apportée*/
             res += e;
         }
         return res;

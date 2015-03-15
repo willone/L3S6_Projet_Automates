@@ -47,7 +47,7 @@ public class Exptoaut extends Automate {
         for (i = 1; i <= etat; i++) {
             ajouterEtat(new Etat(i));
         }
-        b.Automate(etat);
+        b.genererAutomate(etat);
         System.out.println(b.recupererEtat(etat));
         System.out.println("etat : " + etat);
         System.out.println("expression : " + expression.length());
@@ -145,9 +145,9 @@ public class Exptoaut extends Automate {
         Scanner tc = new Scanner(System.in);
         String expre;
         String alpha;
-        System.out.println("\n### Quel est l'alphabet utilisé? ? ###");
+        System.out.println("\n### Alphabet utilisé ###");
         alpha = tc.nextLine();
-        System.out.println("\n### Entrez votre expression ? ###");
+        System.out.println("\n### Expression ###");
         expre = tc.nextLine();
         Exptoaut(expre, alpha);
     }

@@ -143,6 +143,17 @@ public class Etat {
     }
 
     /**
+     * Supprime une transition d'un état
+     *
+     * @param c Etiquette de la transition à supprimer
+     * @param e Etat cible de la transition à supprimer
+     * @return Un booléen : vrai si la suppression a eu lieu, faux sinon
+     */
+    public boolean supprimerTransition(char c, Etat e) {
+        return transitions.remove(c, e);
+    }
+
+    /**
      * Retourne l'ensemble des lettres associées aux transitions, sans doublon (grâce à l'utilisation d'un Set)
      *
      * @return Ensemble de lettres
@@ -189,6 +200,7 @@ public class Etat {
 
     /**
      * Ajoute une double flèche à l'affichage pour préciser si un état est initial/terminal
+     *
      * @return Une chaîne de caractères
      */
     public String preciserEtat() {
@@ -229,11 +241,10 @@ public class Etat {
         String res = "";
 
         for (HashMap.Entry<Character, EnsEtats> entree : transitions.entrySet()) {
-            Iterator it = entree.getValue().iterator(); // permet de supprimer les crocher inhérents à l'affichage d'un HashSet (ie. EnsEtats pour entree.getValue());
+            Iterator it = entree.getValue().iterator(); // permet de supprimer les crochets inhérents à l'affichage d'un HashSet (ie. EnsEtats pour entree.getValue());
 
-            if (it.hasNext())
-            {
-                Etat suiv = (Etat)it.next();
+            if (it.hasNext()) {
+                Etat suiv = (Etat) it.next();
                 res += "(" + this.preciserEtat() + ")-" + entree.getKey() + "->" + "(" + suiv.preciserEtat() + ")\n";
             }
         }

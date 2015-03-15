@@ -35,7 +35,7 @@ public class Main {
 			System.out.println(e.afficherTout());
 		}
 		*/
-		/* Jeu de tests 2 à supprimer
+        /* Jeu de tests 2 à supprimer
 		Automate automate = new Automate();
 		automate.add(new Etat(true, false, 0));
 		automate.add(new Etat(1));
@@ -43,15 +43,15 @@ public class Main {
 		System.out.println(automate);
 		*/
 
-		/* Jeu de tests 3 ([Florian] : je l'ai modifiée pour transformer le if..else en switch)
+		/* Jeu de tests 3 ([Florian] : je l'ai modifiée pour transformer le if..else en switch)*/
         System.out.println("[MENU AUTOMATE]\n");
-        System.out.println("1°) expression vers automate");
-        System.out.println("2°) automate");
+        System.out.println("1 - Expression vers automate");
+        System.out.println("2 - Automate");
         Scanner sc1 = new Scanner(System.in);
         int choix;
 
         do {
-            System.out.println("### Faites votre choix ? (1 ou 2). ###");
+            System.out.println("### Faites votre choix ? (1 ou 2) ###");
             choix = sc1.nextInt();
         } while ((choix < 1) || (choix > 2));
 
@@ -66,13 +66,13 @@ public class Main {
                 System.out.println(a);
                 break;
             default:
-                System.out.println("Choix hors-limites");
+                System.out.println(">>> Erreur : Choix hors-limites <<<");
                 break;
         }
         sc1.close();
-        */
 
-        /* Jeu de tests affichage états */
+
+        /* Jeu de tests affichage états
         System.out.println("[AFFICHAGE AUTOMATE (TRANSITIONS EN LIGNE)");
         Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(false, false, 1);
@@ -89,7 +89,7 @@ public class Main {
         a.ajouterEtat(e1);
         a.ajouterEtat(e2);
 
-        System.out.println(a);
+        System.out.println(a);*/
     }
 
 }
