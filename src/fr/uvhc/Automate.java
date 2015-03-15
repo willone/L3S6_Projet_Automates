@@ -8,8 +8,8 @@ import java.util.Set;
  * Créé par Florian le 14/02/2015.
  */
 public class Automate extends EnsEtats implements Cloneable {
-    private EnsEtats initiaux;
-    private EnsEtats finaux;
+    protected EnsEtats initiaux;
+    protected EnsEtats finaux;
 
     /**
      * Constructeur vide
@@ -33,6 +33,7 @@ public class Automate extends EnsEtats implements Cloneable {
 
     /**
      * Permet de cloner l'automate
+     *
      * @return Un objet clone de l'automate
      */
     public Object Clone() {
@@ -302,10 +303,10 @@ public class Automate extends EnsEtats implements Cloneable {
 
     @Override
     public String toString() {
-        if(!isEmpty()) {
+        if (!isEmpty()) {
             String res = "> Etats : " + size() + "\n";
-            res += "> Initiaux : " + initiaux + "\n";
-            res += "> Terminaux : " + finaux + "\n";
+            res += "> Initiaux : " + (initiaux.isEmpty() ? "Aucun" : initiaux + "\n");
+            res += "> Terminaux : " + (finaux.isEmpty() ? "Aucun" : finaux + "\n");
             res += "> Déterministe : " + (this.estDeterministe() ? "Oui\n" : "Non\n");
             res += "> Synchrone : " + (this.estSynchrone() ? "Oui\n" : "Non\n");
             res += "> Alphabet : " + this.alphabet() + "\n";

@@ -12,41 +12,45 @@ public class AutomateSynchrone extends Automate {
         super(nbEtats);
     }
 
-    /**
-     * Synchroniser un automate a donné en entrée [méthode à terminer]
-     * @param a Automate asynchrone (ou pas, mais inutile sinon)
-     */
-    public void synchroniser(Automate a) {
-        // On duplique l'automate à synchroniser
-        AutomateSynchrone eqSync = (AutomateSynchrone)a.clone();
+    private void copier(Automate a) {
+        initiaux = a.initiaux;
+        finaux = a.finaux;
+        
 
-        // On renumérote les états
-        int i = 1;
-        for(Etat e : eqSync) {
-            e.setId(i++);
-        }
-
-        /* On duplique l'automate de base et numérote les états de 1 à nbEtats où nbEtats est le nombre d'états
-        for (Etat e : eqSync) {
+        for (Etat e : this) {
             Iterator it = a.iterator();
             if (it.hasNext()) {
                 Etat ea = (Etat) it.next();
                 if (ea.isInitial()) {
                     e.setInitial();
-                    eqSync.ajouterEtatInitial(e);
+                    this.ajouterEtatInitial(e);
                 }
                 if (ea.isTerminal()) {
                     e.setTerminal();
-                    eqSync.ajouterEtatFinal(e);
+                    this.ajouterEtatFinal(e);
                 }
                 for (HashMap.Entry<Character, EnsEtats> entree : ea.getTransitions().entrySet()) {
                     Iterator<Etat> ite = entree.getValue().iterator();
                     e.ajouterTransition(entree.getKey(), (Etat) it.next());
                 }
             }
-        }*/
+        }
+    }
 
+    /**
+     * Synchroniser un automate a donné en entrée [méthode à terminer]
+     *
+     * @param a Automate asynchrone (ou pas, mais inutile sinon)
+     */
+    public void synchroniser(Automate a) {
+        AutomateSynchrone eqSync = new AutomateSynchrone(a.size());
+        copier(a);
 
+        // On renumérote les états
+        int i = 1;
+        for (Etat e : eqSync) {
+            e.setId(i++);
+        }
 
         // On détermine la valeur de k (id automate) la plus élevée telle qu'il existe <q epsilon k>, q != k
         // On récupère les états q1 tels que <q1 epsilon k> (k état != q1) => EnsEtats ensQ1

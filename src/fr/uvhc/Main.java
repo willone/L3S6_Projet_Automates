@@ -36,7 +36,7 @@ public class Main {
 		}
 		*/
         /* Jeu de tests 2 à supprimer
-		Automate automate = new Automate();
+        Automate automate = new Automate();
 		automate.add(new Etat(true, false, 0));
 		automate.add(new Etat(1));
 		automate.add(new Etat(false, true, 2));
@@ -47,13 +47,14 @@ public class Main {
         System.out.println("[MENU AUTOMATE]\n");
         System.out.println("1 - Expression vers automate");
         System.out.println("2 - Automate");
+        System.out.println("3 - Tests");
         Scanner sc1 = new Scanner(System.in);
         int choix;
 
         do {
-            System.out.println("### Faites votre choix ? (1 ou 2) ###");
+            System.out.println("### Faites votre choix ? ###");
             choix = sc1.nextInt();
-        } while ((choix < 1) || (choix > 2));
+        } while ((choix < 1) || (choix > 3));
 
         switch (choix) {
             case 1:
@@ -64,34 +65,32 @@ public class Main {
                 Automate a = new Automate();
                 a.creer();
                 System.out.println(a);
+                break;
+            case 3:
+                System.out.println("Jeu de tests : affichage");
+                Etat e0 = new Etat(true, false, 0);
+                Etat e1 = new Etat(false, false, 1);
+                Etat e2 = new Etat(false, true, 2);
+                e0.ajouterTransition('a', e1);
+                e0.ajouterTransition('b', e2);
+                e1.ajouterTransition('a', e2);
+                e1.ajouterTransition('b', e0);
+                e2.ajouterTransition('a', e0);
+                e2.ajouterTransition('§', e1);
 
+                Automate a1 = new Automate();
+                a1.ajouterEtat(e0);
+                a1.ajouterEtat(e1);
+                a1.ajouterEtat(e2);
+                a1.ajouterEtatInitial(e0);
+                a1.ajouterEtatFinal(e2);
+
+                System.out.println(a1);
                 break;
             default:
                 System.out.println(">>> Erreur : Choix hors-limites <<<");
                 break;
         }
         sc1.close();
-
-        /* Jeu de tests affichage états
-        System.out.println("[AFFICHAGE AUTOMATE (TRANSITIONS EN LIGNE)");
-        Etat e0 = new Etat(true, false, 0);
-        Etat e1 = new Etat(false, false, 1);
-        Etat e2 = new Etat(false, true, 2);
-        e0.ajouterTransition('a', e1);
-        e0.ajouterTransition('b', e2);
-        e1.ajouterTransition('a', e2);
-        e1.ajouterTransition('b', e0);
-        e2.ajouterTransition('a', e0);
-        e2.ajouterTransition('§', e1);
-
-        Automate a = new Automate();
-        a.ajouterEtat(e0);
-        a.ajouterEtat(e1);
-        a.ajouterEtat(e2);
-        a.ajouterEtatInitial(e0);
-        a.ajouterEtatFinal(e2);
-
-        System.out.println(a);
-        */
     }
 }
