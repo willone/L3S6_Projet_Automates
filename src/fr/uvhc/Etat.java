@@ -77,7 +77,7 @@ public class Etat {
         return terminal;
     }
 
-    public HashMap<Character, EnsEtats> getTransitions() {
+    protected HashMap<Character, EnsEtats> getTransitions() {
         return transitions;
     }
     // Autres méthodes

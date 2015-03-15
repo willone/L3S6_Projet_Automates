@@ -35,11 +35,18 @@ public class Automate extends EnsEtats {
         }
     }
 
+    /**
+     * Retourne le nombre d'états initiaux de l'automate
+     * @return Un entier
+     */
     public int nbEtatsInitiaux() {
         return initiaux.size();
     }
 
-    /*modification apportée*/
+    /**
+     * Retourne le nombre d'états finaux de l'automate
+     * @return
+     */
     public int nbEtatsFinaux() {
         return finaux.size();
     }
@@ -47,7 +54,6 @@ public class Automate extends EnsEtats {
     /**
      * Permet de créer un automate
      */
-
     public void creer() {
         Scanner sc = new Scanner(System.in);
         int nbEtats = 0;
@@ -231,6 +237,19 @@ public class Automate extends EnsEtats {
             }
             return true;
         }
+    }
+
+    /**
+     * Vérifie si un automate est synchrone
+     * @return Un booléen
+     */
+    public boolean estSynchrone() {
+        for (Etat e : this){
+            if (e.getTransitions().containsKey('§')) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
