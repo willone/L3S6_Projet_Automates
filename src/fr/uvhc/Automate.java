@@ -256,6 +256,7 @@ public class Automate extends EnsEtats {
     public String toString() {
         String res = "> Etats : " + size() + "\n";
         res += "> Déterministe : " + (estDeterministe() ? "Oui\n" : "Non\n");
+        res += "> Synchrone : " + (estSynchrone() ? "Oui\n" : "Non\n");
         res += "> Alphabet : " + alphabet() + "\n";
         res += "> Transitions : \n";
         for (Etat e : this) {
