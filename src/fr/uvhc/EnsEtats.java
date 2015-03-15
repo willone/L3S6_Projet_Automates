@@ -89,4 +89,15 @@ public class EnsEtats extends HashSet<Etat> {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        String res = "";
+
+        for (Etat e : this) {
+            res += e.getId() + " ";
+        }
+
+        return res;
+    }
 }

@@ -17,10 +17,16 @@ public class AutomateSynchrone extends Automate {
      * @param a Automate asynchrone (ou pas, mais inutile sinon)
      */
     public void synchroniser(Automate a) {
-        int nbEtats = a.size();
-        AutomateSynchrone eqSync = new AutomateSynchrone(nbEtats);
+        // On duplique l'automate à synchroniser
+        AutomateSynchrone eqSync = (AutomateSynchrone)a.clone();
 
-        // On duplique l'automate de base et numérote les états de 1 à nbEtats où nbEtats est le nombre d'états
+        // On renumérote les états
+        int i = 1;
+        for(Etat e : eqSync) {
+            e.setId(i++);
+        }
+
+        /* On duplique l'automate de base et numérote les états de 1 à nbEtats où nbEtats est le nombre d'états
         for (Etat e : eqSync) {
             Iterator it = a.iterator();
             if (it.hasNext()) {
@@ -38,7 +44,9 @@ public class AutomateSynchrone extends Automate {
                     e.ajouterTransition(entree.getKey(), (Etat) it.next());
                 }
             }
-        }
+        }*/
+
+
 
         // On détermine la valeur de k (id automate) la plus élevée telle qu'il existe <q epsilon k>, q != k
         // On récupère les états q1 tels que <q1 epsilon k> (k état != q1) => EnsEtats ensQ1

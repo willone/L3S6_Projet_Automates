@@ -7,15 +7,9 @@ import java.util.Set;
 /**
  * Créé par Florian le 14/02/2015.
  */
-public class Automate extends EnsEtats {
+public class Automate extends EnsEtats implements Cloneable {
     private EnsEtats initiaux;
-    /*modification apportée*/
     private EnsEtats finaux;
-    private HashSet<Character> alphabet;
-
-    private boolean autSynchrone;
-    private boolean autDeterministe;
-    // les transitions sont disponibles via grâce à la classe mère
 
     /**
      * Constructeur vide
@@ -23,10 +17,8 @@ public class Automate extends EnsEtats {
     Automate() {
         super();
         initiaux = new EnsEtats();
-        /*modification apportée*/
         finaux = new EnsEtats();
     }
-
 
     /**
      * Constructeur à 1 paramètre
@@ -37,6 +29,22 @@ public class Automate extends EnsEtats {
         for (int i = 1; i <= nbEtats; i++) {
             add(new Etat(i));
         }
+    }
+
+    /**
+     * Permet de cloner l'automate
+     * @return Un objet clone de l'automate
+     */
+    public Object Clone() {
+        Object o = null;
+
+        try {
+            o = super.clone();
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+
+        return o;
     }
 
     /**
@@ -82,9 +90,9 @@ public class Automate extends EnsEtats {
      */
     public void creer() {
         Scanner sc = new Scanner(System.in);
-        int nbEtats = 0;
+        int nbEtats;
 
-        System.out.println("### Création de l'automate : les états seront numérotés de 1 à X où X est le nombre d'états ###");
+        System.out.println("### Création de l'automate : les états seront numérotés de 1 à X, où X est le nombre d'états ###");
         System.out.println("### Nombre d'états de l'automate ###");
         nbEtats = sc.nextInt();
 
@@ -101,10 +109,6 @@ public class Automate extends EnsEtats {
 
         // Ajout des transitions
         creerTransitions(sc);
-
-        // Màj des booléens autSynchrone et autDeterministe
-        autSynchrone = estSynchrone();
-        autDeterministe = estDeterministe();
     }
 
     /**
@@ -113,10 +117,12 @@ public class Automate extends EnsEtats {
      * @param sc Un Scanner récupéré à partir de la fonction creer()
      */
     private void creerEtatsInitiaux(Scanner sc) {
-        int nbEtatsInitiaux = 0;
+        int nbEtatsInitiaux;
         int etatInitial;
+
         System.out.println("### Nombre d'états initiaux : ###");
         nbEtatsInitiaux = sc.nextInt();
+
         System.out.println("### Indiquer le numéro des états initiaux : ###");
         while (nbEtatsInitiaux > 0) {
             etatInitial = sc.nextInt();
@@ -159,35 +165,30 @@ public class Automate extends EnsEtats {
      * @param sc Un scanner récupéré via creer()
      */
     private void creerTransitions(Scanner sc) {
-        int nbTransitions = 0;
-        int etatDepart = 0;
-        int etatArrivee = 0;
-        Character c = null;
+        int nbTransitions;
+        int etatDepart;
+        int etatArrivee;
+        char c;
         String transition;
+
         System.out.println("### Nombre de transitions ###");
         nbTransitions = sc.nextInt();
         sc.nextLine(); // purge le scanner (récupère le retour à la ligne)
-        System.out.println("### Note : Ecrire les transitions sous la forme Etat Symbole Etat (ex. : 1 a 2 ou 1 § 2 si epsilon-transition) ###");
+
+
         while (nbTransitions > 0) {
-            transition = sc.nextLine();
+            System.out.println("Il vous reste " + nbTransitions + " transition/s à préciser");
+            do {
+                System.out.println("Syntaxe : <Etat Symbole Etat> (ex. : 1 a 2, a = § si epsilon-transition)");
+                transition = sc.nextLine();
+            } while (transition.length() != 5);
+
             etatDepart = Character.getNumericValue(transition.charAt(0));
-            if ((transition.length() == 3) && (transition.charAt(1) != ' ')) {
-                etatArrivee = Character.getNumericValue(transition.charAt(2));
-                c = new Character(transition.charAt(1));
-                ajouterTransition(recupererEtat(etatDepart), c, recupererEtat(etatArrivee));
+            etatArrivee = Character.getNumericValue(transition.charAt(4));
+            c = transition.charAt(2);
 
-				/*modification apportée*/
-                //etatArrivee = Character.getNumericValue(transition.charAt(2));
-                //ajouterTransition(recupererEtat(etatDepart), recupererEtat(etatArrivee));
-            } else {
-                etatArrivee = Character.getNumericValue(transition.charAt(2));
-                ajouterTransition(recupererEtat(etatDepart), recupererEtat(etatArrivee));
+            ajouterTransition(recupererEtat(etatDepart), c, recupererEtat(etatArrivee));
 
-				/*modification apportée*/
-                //etatArrivee = Character.getNumericValue(transition.charAt(4));
-                //c = new Character(transition.charAt(2));
-                //ajouterTransition(recupererEtat(etatDepart), c, recupererEtat(etatArrivee));
-            }
             nbTransitions--;
         }
     }
@@ -215,10 +216,10 @@ public class Automate extends EnsEtats {
      *
      * @return L'alphabet lié à l'automate
      */
-    public Set<Character> alphabet() {
-        Set<Character> al = new HashSet<Character>();
+    public HashSet<Character> alphabet() {
+        HashSet<Character> al = new HashSet<Character>();
         for (Etat e : this) {
-            Set<Character> tmp = new HashSet<Character>();
+            HashSet<Character> tmp = new HashSet<Character>();
             tmp.addAll(e.alphabet());
             al.addAll(tmp);
         }
@@ -273,7 +274,6 @@ public class Automate extends EnsEtats {
      * @return Un booléen
      */
     public boolean estDeterministe() {
-        //System.out.println("nombre d etat initial : "+nbEtatsInitiaux());
         if (nbEtatsInitiaux() != 1) {
             return false;
         } else {
@@ -302,15 +302,20 @@ public class Automate extends EnsEtats {
 
     @Override
     public String toString() {
-        String res = "> Etats : " + size() + "\n";
-        res += "> Déterministe : " + (estDeterministe() ? "Oui\n" : "Non\n");
-        res += "> Synchrone : " + (estSynchrone() ? "Oui\n" : "Non\n");
-        res += "> Alphabet : " + alphabet() + "\n";
-        res += "> Transitions : \n";
-        for (Etat e : this) {
-            /*modification apportée*/
-            res += e;
+        if(!isEmpty()) {
+            String res = "> Etats : " + size() + "\n";
+            res += "> Initiaux : " + initiaux + "\n";
+            res += "> Terminaux : " + finaux + "\n";
+            res += "> Déterministe : " + (this.estDeterministe() ? "Oui\n" : "Non\n");
+            res += "> Synchrone : " + (this.estSynchrone() ? "Oui\n" : "Non\n");
+            res += "> Alphabet : " + this.alphabet() + "\n";
+            res += "> Transitions : \n";
+            for (Etat e : this) {
+                res += e;
+            }
+            return res;
+        } else {
+            return ">>> Erreur : Automate vide <<<";
         }
-        return res;
     }
 }
