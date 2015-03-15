@@ -68,24 +68,29 @@ public class Main {
                 break;
             case 3:
                 System.out.println("Jeu de tests : affichage");
-                Etat e0 = new Etat(true, false, 0);
-                Etat e1 = new Etat(false, false, 1);
-                Etat e2 = new Etat(false, true, 2);
-                e0.ajouterTransition('a', e1);
-                e0.ajouterTransition('b', e2);
+                Etat e1 = new Etat(true, false, 1);
+                Etat e2 = new Etat(false, false, 2);
+                Etat e3 = new Etat(false, true, 3);
                 e1.ajouterTransition('a', e2);
-                e1.ajouterTransition('b', e0);
-                e2.ajouterTransition('a', e0);
-                e2.ajouterTransition('§', e1);
+                e1.ajouterTransition('b', e3);
+                e2.ajouterTransition('a', e3);
+                e2.ajouterTransition('b', e1);
+                e3.ajouterTransition('a', e1);
+                e3.ajouterTransition('§', e2);
 
                 Automate a1 = new Automate();
-                a1.ajouterEtat(e0);
                 a1.ajouterEtat(e1);
                 a1.ajouterEtat(e2);
-                a1.ajouterEtatInitial(e0);
-                a1.ajouterEtatFinal(e2);
+                a1.ajouterEtat(e3);
+                a1.ajouterEtatInitial(e1);
+                a1.ajouterEtatFinal(e3);
 
                 System.out.println(a1);
+
+                System.out.println("--- Test automates synchrones ---");
+                AutomateSynchrone as = new AutomateSynchrone(a1.nbEtats());
+                as.copier(a1);
+                System.out.println("Automate copié : \n" + as);
                 break;
             default:
                 System.out.println(">>> Erreur : Choix hors-limites <<<");

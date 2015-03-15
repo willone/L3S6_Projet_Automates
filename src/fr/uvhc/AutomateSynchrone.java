@@ -12,11 +12,21 @@ public class AutomateSynchrone extends Automate {
         super(nbEtats);
     }
 
-    private void copier(Automate a) {
-        initiaux = a.initiaux;
-        finaux = a.finaux;
-        
+    /**
+     * Copier un automate dans l'automate synchrone
+     * @param a Automate à copier
+     */
+    public void copier(Automate a) {
+        this.initiaux = a.initiaux;
+        this.finaux = a.finaux;
 
+        int i = 1;
+        for (Etat e : a) {
+            Etat eam = e;
+            eam.setId(i++);
+        }
+
+        /*
         for (Etat e : this) {
             Iterator it = a.iterator();
             if (it.hasNext()) {
@@ -35,6 +45,7 @@ public class AutomateSynchrone extends Automate {
                 }
             }
         }
+        */
     }
 
     /**
