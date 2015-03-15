@@ -43,7 +43,7 @@ public class Main {
 		System.out.println(automate);
 		*/
 
-		/* Jeu de tests 3*/
+		/* Jeu de tests 3 ([Florian] : je l'ai modifiée pour transformer le if..else en switch)
         System.out.println("[MENU AUTOMATE]\n");
         System.out.println("1°) expression vers automate");
         System.out.println("2°) automate");
@@ -69,10 +69,10 @@ public class Main {
                 System.out.println("Choix hors-limites");
                 break;
         }
-
         sc1.close();
+        */
 
-        /* Jeu de tests affichage états
+        /* Jeu de tests affichage états */
         System.out.println("[AFFICHAGE AUTOMATE (TRANSITIONS EN LIGNE)");
         Etat e0 = new Etat(true, false, 0);
         Etat e1 = new Etat(false, false, 1);
@@ -82,13 +82,14 @@ public class Main {
         e1.ajouterTransition('a', e2);
         e1.ajouterTransition('b', e0);
         e2.ajouterTransition('a', e0);
+        e2.ajouterTransition('§', e1);
 
         Automate a = new Automate();
         a.ajouterEtat(e0);
         a.ajouterEtat(e1);
         a.ajouterEtat(e2);
 
-        System.out.println(a);*/
+        System.out.println(a);
     }
 
 }
