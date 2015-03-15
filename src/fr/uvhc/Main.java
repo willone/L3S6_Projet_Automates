@@ -5,7 +5,6 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println("[MENU AUTOMATE]\n");
         /* Jeu de tests à supprimer
 		EnsEtats ens = new EnsEtats();
 		Etat e0 = new Etat(true, false, 0);
@@ -43,7 +42,9 @@ public class Main {
 		automate.add(new Etat(false, true, 2));
 		System.out.println(automate);
 		*/
-		/* Jeu de tests 3 */
+
+		/* Jeu de tests 3
+		System.out.println("[MENU AUTOMATE]\n");
         System.out.println("1°) expression vers automate");
         System.out.println("2°) automate");
         Scanner sc1 = new Scanner(System.in);
@@ -68,7 +69,21 @@ public class Main {
             }
         }
         sc1.close();
+        */
 
+        /* Jeu de tests affichage états */
+        System.out.println("[AFFICHAGE EN LIGNE DES TRANSITIONS PAR ETAT]");
+        Etat e0 = new Etat(true, false, 0);
+        Etat e1 = new Etat(false, false, 1);
+        Etat e2 = new Etat(false, true, 2);
+        e0.ajouterTransition('a', e1);
+        e0.ajouterTransition('b', e2);
+        e1.ajouterTransition('a', e2);
+        e1.ajouterTransition('b', e0);
+        e2.ajouterTransition('a', e0);
+        System.out.println(e0);
+        System.out.println(e1);
+        System.out.println(e2);
     }
 
 }

@@ -1,6 +1,7 @@
 package fr.uvhc;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -137,7 +138,7 @@ public class Etat {
      * @param e Etat d'arrivée de la transition
      */
     public void ajouterTransition(Etat e) {
-        char epsilon = ' ';
+        char epsilon = '§';
         ajouterTransition(epsilon, e);
     }
 
@@ -186,18 +187,23 @@ public class Etat {
         return id;
     }
 
-    @Override
-    public String toString() {
+    /**
+     * Ajoute une double flèche à l'affichage pour préciser si un état est initial/terminal
+     * @return Une chaîne de caractères
+     */
+    public String preciserEtat() {
         String res = "" + id;
+
         if (isInitial() && !isTerminal()) {
             res = "=>" + res;
-            if (!isInitial() && isTerminal()) {
-                res += "=>";
-            }
-            if (isInitial() && isTerminal()) {
-                res = "=>" + res + "=>";
-            }
         }
+        if (!isInitial() && isTerminal()) {
+            res += "=>";
+        }
+        if (isInitial() && isTerminal()) {
+            res = "=>" + res + "=>";
+        }
+
         return res;
     }
 
@@ -208,11 +214,26 @@ public class Etat {
      */
     public String afficherTout() {
         String res = "\nEtat " + id + "\n";
+
         res += "Initial : " + ((isInitial()) ? "Oui" : "Non") + "\n";
         res += "Terminal : " + ((isTerminal()) ? "Oui" : "Non") + "\n";
         res += "Transition : " + transitions + "\n";
         res += "Alphabet associé : " + alphabet() + "\n";
         res += "Successeurs : " + successeurs() + "\n";
+
+        return res;
+    }
+
+
+    public String toString() {
+        String res = "";
+
+        for (HashMap.Entry<Character, EnsEtats> entree : transitions.entrySet()) {
+            Iterator it = entree.getValue().iterator(); // permet de supprimer les crocher inhérents à l'affichage d'un HashSet (ie. EnsEtats pour entree.getValue());
+            Etat suiv = (Etat)it.next();
+            res += "(" + this.preciserEtat() + ")-" + entree.getKey() + "->" + "(" + suiv.preciserEtat() + ")\n";
+        }
+
         return res;
     }
 }
